@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import type { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { sendMotherAccountCreatedEmail } from '@/lib/mailer';
 
 function toNullableNumber(value: Prisma.Decimal | number | null): number | null {
@@ -114,7 +114,7 @@ export async function GET(req: NextRequest) {
       prisma.mother.count({ where }),
     ]);
 
-    const normalizedMothers = mothers.map((mother) => ({
+    const normalizedMothers = mothers.map((mother: typeof mothers[number]) => ({
       ...mother,
       latitude: toNullableNumber(mother.latitude),
       longitude: toNullableNumber(mother.longitude),
